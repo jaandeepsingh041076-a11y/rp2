@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand RP Admin Panel</title>
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="grp-container">
+        <!-- Crimson sidebar -->
+        <div class="grp-sidebar">
+            <div class="grp-sidebar-header">
+                <div class="grp-logo">
+                    <div class="grp-logo-g">G</div>
+                    <div class="grp-logo-label">INTERACTION</div>
+                </div>
+                <div class="grp-admin-info">
+                    <div id="grp-admin-name" class="grp-skew">Loading...</div>
+                    <div class="grp-status-indicators">
+                        <span id="grp-godmode-indicator" class="grp-indicator" data-status="off" title="Godmode">
+                            <div class="grp-icon-skew">⛑️</div>
+                        </span>
+                        <span id="grp-noclip-indicator" class="grp-indicator" data-status="off" title="Noclip">
+                            <div class="grp-icon-skew">🚀</div>
+                        </span>
+                        <span id="grp-spectate-indicator" class="grp-indicator" data-status="off" title="Spectating">
+                            <div class="grp-icon-skew">👁️</div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="grp-sidebar-nav">
+                <button class="grp-nav-btn grp-skew active" data-tab="grp-players">
+                    <div class="grp-icon-skew">👥</div>
+                    <span class="grp-nav-label">PLAYER MANAGEMENT</span>
+                </button>
+                <button class="grp-nav-btn grp-skew" data-tab="grp-vehicles">
+                    <div class="grp-icon-skew">🚗</div>
+                    <span class="grp-nav-label">VEHICLE SPAWNER</span>
+                </button>
+                <button class="grp-nav-btn grp-skew" data-tab="grp-self">
+                    <div class="grp-icon-skew">⚙️</div>
+                    <span class="grp-nav-label">SELF ACTIONS</span>
+                </button>
+                <button class="grp-nav-btn grp-skew" data-tab="grp-teleport">
+                    <div class="grp-icon-skew">📍</div>
+                    <span class="grp-nav-label">TELEPORT</span>
+                </button>
+                <button class="grp-nav-btn grp-skew" data-tab="grp-settings">
+                    <div class="grp-icon-skew">⚡</div>
+                    <span class="grp-nav-label">SETTINGS</span>
+                </button>
+            </nav>
+
+            <div class="grp-sidebar-footer">
+                <div class="grp-clock">
+                    <div id="grp-clock-time">--:--:--</div>
+                    <div id="grp-clock-uptime">--:--:--</div>
+                </div>
+                <button id="grp-close-menu" class="grp-btn-close grp-skew">
+                    <div class="grp-icon-skew">✖</div>
+                    <span>CLOSE (F10)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main panel -->
+        <div class="grp-main-panel">
+            <!-- Players tab -->
+            <div id="grp-players" class="grp-tab grp-panel-dark active">
+                <h3 class="grp-heading grp-skew">
+                    <div class="grp-icon-skew">👥</div>
+                    <span>PLAYER MANAGEMENT</span>
+                </h3>
+
+                <div class="grp-search-box">
+                    <input type="text" id="grp-player-search" placeholder="Search players..." class="grp-skew">
+                    <div class="grp-search-icon">🔍</div>
+                </div>
+
+                <div class="grp-table-wrapper">
+                    <table class="grp-table">
+                        <thead>
+                            <tr class="grp-skew">
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>CITIZEN ID</th>
+                                <th>JOB</th>
+                                <th>LEVEL</th>
+                                <th>CASH</th>
+                                <th>BANK</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="grp-players-list"></tbody>
+                    </table>
+                </div>
+
+                <div class="grp-panel-footer">
+                    <div class="grp-player-count">
+                        <span id="grp-player-count">0</span> players online
+                    </div>
+                    <button id="grp-refresh-players" class="grp-btn-secondary grp-skew">
+                        <div class="grp-icon-skew">🔄</div>
+                        <span>REFRESH</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vehicles tab -->
+            <div id="grp-vehicles" class="grp-tab grp-panel-dark">
+                <h3 class="grp-heading grp-skew">
+                    <div class="grp-icon-skew">🚗</div>
+                    <span>VEHICLE SPAWNER</span>
+                </h3>
+
+                <div class="grp-vehicle-controls">
+                    <div class="grp-category-selector">
+                        <label for="grp-vehicle-category" class="grp-skew">CATEGORY:</label>
+                        <select id="grp-vehicle-category" class="grp-skew">
+                            <option value="Cars">CARS</option>
+                            <option value="SUVs">SUVs</option>
+                            <option value="Motorcycles">MOTORCYCLES</option>
+                        </select>
+                    </div>
+                    <div class="grp-vehicle-search">
+                        <input type="text" id="grp-vehicle-search" placeholder="Search vehicles..." class="grp-skew">
+                        <div class="grp-search-icon">🔍</div>
+                    </div>
+                </div>
+
+                <div class="grp-vehicle-grid" id="grp-vehicle-grid"></div>
+
+                <div class="grp-spawn-controls">
+                    <button id="grp-spawn-vehicle" class="grp-btn-primary grp-skew">
+                        <div class="grp-icon-skew">🚀</div>
+                        <span>SPAWN SELECTED</span>
+                    </button>
+                    <button id="grp-delete-vehicle" class="grp-btn-danger grp-skew">
+                        <div class="grp-icon-skew">🗑️</div>
+                        <span>DELETE CURRENT</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Self actions tab -->
+            <div id="grp-self" class="grp-tab grp-panel-dark">
+                <h3 class="grp-heading grp-skew">
+                    <div class="grp-icon-skew">⚙️</div>
+                    <span>SELF ACTIONS</span>
+                </h3>
+
+                <div class="grp-action-grid">
+                    <button id="grp-toggle-godmode" class="grp-action-btn grp-skew" data-state="off">
+                        <div class="grp-icon-skew">⛑️</div>
+                        <div class="grp-action-label">GODMODE</div>
+                        <div class="grp-action-status">OFF</div>
+                    </button>
+                    <button id="grp-toggle-noclip" class="grp-action-btn grp-skew" data-state="off">
+                        <div class="grp-icon-skew">🚀</div>
+                        <div class="grp-action-label">NOCLIP</div>
+                        <div class="grp-action-status">OFF</div>
+                    </button>
+                    <button id="grp-toggle-invisible" class="grp-action-btn grp-skew">
+                        <div class="grp-icon-skew">👻</div>
+                        <div class="grp-action-label">INVISIBLE</div>
+                        <div class="grp-action-status">ON</div>
+                    </button>
+                    <button id="grp-heal-self" class="grp-action-btn grp-skew">
+                        <div class="grp-icon-skew">❤️</div>
+                        <div class="grp-action-label">HEAL SELF</div>
+                    </button>
+                    <button id="grp-armor-self" class="grp-action-btn grp-skew">
+                        <div class="grp-icon-skew">🛡️</div>
+                        <div class="grp-action-label">MAX ARMOR</div>
+                    </button>
+                </div>
+
+                <div class="grp-spectate-section">
+                    <h4 class="grp-subheading grp-skew">SPECTATE PLAYER</h4>
+                    <div class="grp-spectate-controls">
+                        <select id="grp-spectate-player" class="grp-skew">
+                            <option value="">Select Player to Spectate</option>
+                        </select>
+                        <button id="grp-start-spectate" class="grp-btn-primary grp-skew">
+                            <div class="grp-icon-skew">👁️</div>
+                            <span>START SPECTATING</span>
+                        </button>
+                        <button id="grp-stop-spectate" class="grp-btn-danger grp-skew" disabled>
+                            <div class="grp-icon-skew">❌</div>
+                            <span>STOP SPECTATING</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teleport tab -->
+            <div id="grp-teleport" class="grp-tab grp-panel-dark">
+                <h3 class="grp-heading grp-skew">
+                    <div class="grp-icon-skew">📍</div>
+                    <span>TELEPORT</span>
+                </h3>
+
+                <div class="grp-teleport-section">
+                    <h4 class="grp-subheading grp-skew">TELEPORT TO PLAYER</h4>
+                    <div class="grp-teleport-controls">
+                        <select id="grp-teleport-player" class="grp-skew">
+                            <option value="">Select Player</option>
+                        </select>
+                        <button id="grp-teleport-to-player" class="grp-btn-primary grp-skew">
+                            <div class="grp-icon-skew">👥</div>
+                            <span>TELEPORT TO PLAYER</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grp-teleport-section">
+                    <h4 class="grp-subheading grp-skew">TELEPORT TO LOCATION</h4>
+                    <div class="grp-coord-inputs">
+                        <div class="grp-coord-group">
+                            <label class="grp-skew">X:</label>
+                            <input type="number" id="grp-coord-x" step="0.01" class="grp-skew">
+                        </div>
+                        <div class="grp-coord-group">
+                            <label class="grp-skew">Y:</label>
+                            <input type="number" id="grp-coord-y" step="0.01" class="grp-skew">
+                        </div>
+                        <div class="grp-coord-group">
+                            <label class="grp-skew">Z:</label>
+                            <input type="number" id="grp-coord-z" step="0.01" class="grp-skew">
+                        </div>
+                        <button id="grp-teleport-to-coords" class="grp-btn-primary grp-skew">
+                            <div class="grp-icon-skew">📍</div>
+                            <span>TELEPORT</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grp-teleport-section">
+                    <h4 class="grp-subheading grp-skew">QUICK TELEPORT</h4>
+                    <div class="grp-quick-teleport">
+                        <button id="grp-teleport-to-waypoint" class="grp-btn-secondary grp-skew">
+                            <div class="grp-icon-skew">🚩</div>
+                            <span>TELEPORT TO WAYPOINT</span>
+                        </button>
+                        <button id="grp-teleport-to-pd" class="grp-btn-secondary grp-skew">
+                            <div class="grp-icon-skew">🚓</div>
+                            <span>POLICE DEPARTMENT</span>
+                        </button>
+                        <button id="grp-teleport-to-hospital" class="grp-btn-secondary grp-skew">
+                            <div class="grp-icon-skew">🏥</div>
+                            <span>HOSPITAL</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings tab -->
+            <div id="grp-settings" class="grp-tab grp-panel-dark">
+                <h3 class="grp-heading grp-skew">
+                    <div class="grp-icon-skew">⚡</div>
+                    <span>SETTINGS</span>
+                </h3>
+
+                <div class="grp-settings-section">
+                    <h4 class="grp-subheading grp-skew">NOCLIP SPEED</h4>
+                    <div class="grp-setting-item">
+                        <label for="grp-noclip-speed" class="grp-skew">MULTIPLIER:</label>
+                        <input type="range" id="grp-noclip-speed" min="1" max="10" value="3" class="grp-slider">
+                        <span id="grp-noclip-speed-value" class="grp-value">3</span>
+                    </div>
+                </div>
+
+                <div class="grp-settings-section">
+                    <h4 class="grp-subheading grp-skew">INTERFACE</h4>
+                    <div class="grp-setting-item">
+                        <label class="grp-checkbox-label grp-skew">
+                            <input type="checkbox" id="grp-auto-refresh" checked>
+                            <span>Auto‑refresh player list</span>
+                        </label>
+                    </div>
+                    <div class="grp-setting-item">
+                        <label class="grp-checkbox-label grp-skew">
+                            <input type="checkbox" id="grp-show-notifications" checked>
+                            <span>Show notifications</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grp-settings-section">
+                    <h4 class="grp-subheading grp-skew">SERVER INFO</h4>
+                    <div class="grp-info-box">
+                        <div class="grp-info-row">
+                            <span class="grp-info-label grp-skew">Connected:</span>
+                            <span id="grp-server-player-count" class="grp-info-value">0</span>
+                        </div>
+                        <div class="grp-info-row">
+                            <span class="grp-info-label grp-skew">Time:</span>
+                            <span id="grp-server-time" class="grp-info-value">--:--:--</span>
+                        </div>
+                        <div class="grp-info-row">
+                            <span class="grp-info-label grp-skew">Uptime:</span>
+                            <span id="grp-server-uptime" class="grp-info-value">--:--:--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification area -->
+            <div id="grp-notification-area" class="grp-notification-area"></div>
+        </div>
+
+        <!-- Modals -->
+        <div id="grp-kick-modal" class="grp-modal">
+            <div class="grp-modal-content grp-panel-darker">
+                <h3 class="grp-heading grp-skew">KICK PLAYER</h3>
+                <p id="grp-kick-player-name" class="grp-modal-target">Player Name</p>
+                <textarea id="grp-kick-reason" placeholder="Reason for kick..." class="grp-skew"></textarea>
+                <div class="grp-modal-actions">
+                    <button id="grp-confirm-kick" class="grp-btn-danger grp-skew">
+                        <div class="grp-icon-skew">👢</div>
+                        <span>KICK PLAYER</span>
+                    </button>
+                    <button class="grp-btn-secondary grp-skew grp-close-modal">
+                        <div class="grp-icon-skew">✖</div>
+                        <span>CANCEL</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="grp-ban-modal" class="grp-modal">
+            <div class="grp-modal-content grp-panel-darker">
+                <h3 class="grp-heading grp-skew">BAN PLAYER</h3>
+                <p id="grp-ban-player-name" class="grp-modal-target">Player Name</p>
+                <div class="grp-modal-inputs">
+                    <div class="grp-input-group">
+                        <label for="grp-ban-duration" class="grp-skew">DURATION (MINUTES, 0 = PERMANENT):</label>
+                        <input type="number" id="grp-ban-duration" value="0" min="0" class="grp-skew">
+                    </div>
+                    <div class="grp-input-group">
+                        <label for="grp-ban-reason" class="grp-skew">REASON:</label>
+                        <textarea id="grp-ban-reason" placeholder="Reason for ban..." class="grp-skew"></textarea>
+                    </div>
+                </div>
+                <div class="grp-modal-actions">
+                    <button id="grp-confirm-ban" class="grp-btn-danger grp-skew">
+                        <div class="grp-icon-skew">🔨</div>
+                        <span>BAN PLAYER</span>
+                    </button>
+                    <button class="grp-btn-secondary grp-skew grp-close-modal">
+                        <div class="grp-icon-skew">✖</div>
+                        <span>CANCEL</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
